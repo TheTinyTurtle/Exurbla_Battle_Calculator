@@ -1,0 +1,452 @@
+/*
+Exurbla Battle Simulator
+Copyright 2017 Exurbla Studios
+Peter Naumoff and Cole Leckey
+All Rights Reserved
+Personal use allowed with written permission of writer
+*/
+
+//all the libraries 
+#include <iostream>
+#include <string>
+#include <time.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h> 
+
+
+using namespace std;
+
+    //items
+    class item{
+    public:
+    //variable declaration
+    string name;
+    int uses;
+    int strengthBoost, perceptionBoost, enduranceBoost, charismaBoost, intelligenceBoost, agilityBoost, luckBoost, authorityBoost, healthBoost;
+
+    };
+    //lua MiniGame
+    class LuaMini{
+      public:
+      //variable declaration
+      int keepLuaing;
+    }
+    //weapons
+    class weapon{
+        public:
+        //variable declaration
+        string name;
+        string diceReq;
+        int damage, uses;
+        bool isMelee;
+        bool isMagic;
+        bool isOther;
+
+    };
+
+    //player class
+    class Player {
+
+        public:
+        //variable declaration
+        string name;
+        string classType;
+        int strength, perception, endurance, charisma, intelligence, agility, luck;
+        int id, cubes; // currency etc.
+        bool authority;
+        int inventory[20] = {};
+        int health = 100+((strength*endurance)*2);
+            //sub stat functions
+            double getPick(){return ((intelligence+luck)*(agility/4))*.01;}
+            double getSneak(){return (25+(agility*5))*0.01;}
+            double getIntimidation(){return (charisma*10)*0.01;}
+            double getBarter(){return getIntimidation();}
+            double getScience(){return ((intelligence*5)/3);}
+
+    };
+    //roll the dice
+    int rollDice(int diceType){
+        //var declaration
+        int diceSide = 0;
+        //seed of random from time
+        srand(time(NULL));
+        //all the dice types
+        if(diceType == 4) diceSide = round(rand() % (3) + 1);
+        if(diceType == 6) diceSide = round(rand() % (5) + 1);
+        if(diceType == 8) diceSide = round(rand() % (7) + 1);
+        if(diceType == 10) diceSide = round(rand() % (9) + 1);
+        if(diceType == 12) diceSide = round(rand() % (11) + 1);
+        if(diceType == 20) diceSide = round(rand() % (19) + 1);
+      //return the side the dice landed on
+      return diceSide;
+    }
+    
+    //enemys
+    class enemy {
+    public:
+    //var declaration
+    string name;
+    int HP;
+    double AC; //armor class ablity to resist hits
+    int DT; //dice used to attack
+    int eid; //id for enemys
+    int gear[2] = {}; //gear
+    int getHit(){return rollDice(DT);} //get damage
+    //is the enemy alive?
+    int alive(){if(HP <= 0) cout << "\nThe " << name << " is dead! "; return false;}
+    int menu(){return rollDice(20);} 
+    };
+    
+    //for context of the situation
+   /* void strings(int stringType){
+      
+        //introduction
+        string intro = "";
+        string intro = "";
+        string intro = "";
+        string intro = "";
+        string intro = "";
+        //transition
+        string trans = "";
+        string trans = "";
+        string trans = "";
+        string trans = "";
+        string trans = "";
+        //hits
+        string hit1 = "";
+        string hit2 = "";
+        string hit3 = "";
+        string hit4 = "";
+        string hit5 = "";
+        //seed of random from time
+        srand(time(NULL));
+        
+      //intro set
+      
+      
+      
+      
+      
+    } */
+    
+    //fight an enemy (option 1)
+    int fightEnemy(Player player, enemy enemy){
+      
+        cout << "\n" << player.name << " and a " << enemy.name << "\n";
+ 
+          //cout << "\nQuitting Program...\n";
+          return 0;
+    }
+    
+    
+    //main function
+    int main(){
+    //player declaration below
+    
+    //peter
+    Player peter;
+    peter.name = "Peter";
+    peter.classType = "Scribe";
+    peter.strength = 3;
+    peter.perception = 3;
+    peter.endurance = 6;
+    peter.charisma = 2;
+    peter.intelligence = 6;
+    peter.agility = 3;
+    peter.luck = 5;
+    peter.id = 1;
+
+    peter.authority = true;
+    peter.cubes = 500;
+    //------------------------------------------
+    //cole
+    Player cole;
+    cole.name = "Cole";
+    cole.classType = "Cursed";
+    cole.strength = 3;
+    cole.perception = 1;
+    cole.endurance = 3;
+    cole.charisma = 5;
+    cole.intelligence = 5;
+    cole.agility = 3;
+    cole.luck = 9;
+
+    cole.id = 2;
+    cole.authority = false;
+    cole.cubes = 500;
+    //------------------------------------------
+    //mason
+    Player mason;
+    mason.name = "Mason";
+    mason.classType = "Thief";
+    mason.strength = 3;
+    mason.perception = 2;
+    mason.endurance = 1;
+    mason.charisma = 6;
+    mason.intelligence = 4;
+    mason.agility = 7;
+    mason.luck = 5;
+
+    mason.id = 3;
+    mason.authority = false;
+    mason.cubes = 500;
+    //------------------------------------------
+    //miles
+    Player miles;
+    miles.name = "Miles";
+    miles.classType = "Paladin";
+    miles.strength = 9;
+    miles.perception = 1;
+    miles.endurance = 5;
+    miles.charisma = 2;
+    miles.intelligence = 2;
+    miles.agility = 7;
+    miles.luck = 2;
+
+    miles.id = 4;
+    miles.authority = true;
+    miles.cubes = 500;
+    //------------------------------------------
+    //ashton
+    Player ashton;
+    ashton.name = "Ashton";
+    ashton.classType = "Hobo";
+    ashton.strength = 3;
+    ashton.perception = 4;
+    ashton.endurance = 7;
+    ashton.charisma = 6;
+    ashton.intelligence = 5;
+    ashton.agility = 3;
+    ashton.luck = 2;
+
+    ashton.id = 5;
+    ashton.authority = false;
+    ashton.cubes = 500;
+    //------------------------------------------
+    
+    //enemy declaration below
+    
+    //AmatuerGuard
+      enemy AmatuerGuard;
+    AmatuerGuard.name = "AmatuerGuardrGuard";
+    AmatuerGuard.HP = 10;
+    AmatuerGuard.AC = 0.05;
+    AmatuerGuard.DT = 4;
+    AmatuerGuard.eid = 1;
+    //MediocreGuard
+        enemy MediocreGuard;
+    MediocreGuard.name = "MediocreGuard";
+    MediocreGuard.HP = 15;
+    MediocreGuard.AC = 0.1;
+    MediocreGuard.DT = 8;
+    MediocreGuard.eid = 2;
+    //Knight
+        enemy Knight;
+    Knight.name = "Knight";
+    Knight.HP = 20;
+    Knight.AC = 0.2;
+    Knight.DT = 12;
+    Knight.eid = 3;
+    //OkachiRaider
+        enemy OkachiRaider;
+    OkachiRaider.name = "OkachiRaider";
+    OkachiRaider.HP = 10;
+    OkachiRaider.AC = 0.15;
+    OkachiRaider.DT = 6;
+    OkachiRaider.eid = 4;
+    //OkachiPaladin
+        enemy OkachiPaladin;
+    OkachiPaladin.name = "OkachiPaladin";
+    OkachiPaladin.HP = 25;
+    OkachiPaladin.AC = 0.1;
+    OkachiPaladin.DT = 10;
+    OkachiPaladin.eid = 5;
+    //OkachiMage
+        enemy OkachiMage;
+    OkachiMage.name = "OkachiMage";
+    OkachiMage.HP = 15;
+    OkachiMage.AC = 0;
+    OkachiMage.DT = 20;
+    OkachiMage.eid = 6;
+    //FrostGiant
+        enemy FrostGiant;
+    FrostGiant.name = "FrostGiant";
+    FrostGiant.HP = 30;
+    FrostGiant.AC = 0.2;
+    FrostGiant.DT = 10;
+    FrostGiant.eid = 7;
+    //DuneViper
+        enemy DuneViper;
+    DuneViper.name = "DuneViper";
+    DuneViper.HP = 10;
+    DuneViper.AC = 0.15;
+    DuneViper.DT = 10;
+    DuneViper.eid = 8;
+    //Burrowurm
+        enemy Burrowurm;
+    Burrowurm.name = "Burrowurm";
+    Burrowurm.HP = 10;
+    Burrowurm.AC = 0.25;
+    Burrowurm.DT = 8;
+    Burrowurm.eid = 9;
+    //Behemoth
+        enemy Behemoth;
+    Behemoth.name = "Behemoth";
+    Behemoth.HP = 65;
+    Behemoth.AC = 0.25;
+    Behemoth.DT = 6;
+    Behemoth.eid = 10;
+    //RabidSquirrel
+        enemy RabidSquirrel;
+    RabidSquirrel.name = "RabidSquirrel";
+    RabidSquirrel.HP = 10;
+    RabidSquirrel.AC = 0;
+    RabidSquirrel.DT = 20;
+    RabidSquirrel.eid = 11;
+    //Wolf
+        enemy Wolf;
+    Wolf.name = "Wolf";
+    Wolf.HP = 15;
+    Wolf.AC = 0.2;
+    Wolf.DT = 8;
+    Wolf.eid = 12;
+    //DireWolf
+        enemy DireWolf;
+    DireWolf.name = "DireWolf";
+    DireWolf.HP = 20;
+    DireWolf.AC = 0.2;
+    DireWolf.DT = 12;
+    DireWolf.eid = 13;
+    //InsaneHobo
+        enemy InsaneHobo;
+    InsaneHobo.name = "InsaneHobo";
+    InsaneHobo.HP = 10;
+    InsaneHobo.AC = 0.05;
+    InsaneHobo.DT = 12;
+    InsaneHobo.eid = 14;
+    //ForestArcher
+        enemy ForestArcher;
+    ForestArcher.name = "ForestArcher";
+    ForestArcher.HP = 15;
+    ForestArcher.AC = 0.15;
+    ForestArcher.DT = 10;
+    ForestArcher.eid = 15;
+    //ForestKnight
+        enemy ForestKnight;
+    ForestKnight.name = "ForestKnight";
+    ForestKnight.HP = 20;
+    ForestKnight.AC = 0.1;
+    ForestKnight.DT = 8;
+    ForestKnight.eid = 16;
+    //ForestKnight
+        enemy ForestMage;
+    ForestMage.name = "ForestMage";
+    ForestMage.HP = 10;
+    ForestMage.AC = 0.15;
+    ForestMage.DT = 10;
+    ForestMage.eid = 17;
+    //Zombie
+        enemy Zombie;
+    Zombie.name = "Zombie";
+    Zombie.HP = 30;
+    Zombie.AC = 0.05;
+    Zombie.DT = 4;
+    Zombie.eid = 17;
+    //MurderOfCrows
+        enemy MurderOfCrows;
+    MurderOfCrows.name = "MurderOfCrows";
+    MurderOfCrows.HP = 10;
+    MurderOfCrows.AC = 0.1;
+    MurderOfCrows.DT = 10;
+    MurderOfCrows.eid = 18;
+
+    //core
+    int choice = 0;
+    cout << "/o\n";
+    cout << "|_/|o\n";
+    cout << "( Oo)                             |  \n";
+    cout << "(_=-)  .===O-  ~~E~X~U~R~B~L~A~ --O--\n";
+    cout << "/  G|_/U'                         |\n";
+    cout << "|| A|_/\n";
+    cout << "|| M|\n";
+    cout << "{K E|\n";
+    cout << "| PS\n";
+    cout << "| ||\n";
+    cout << "(__||\n";
+    cout << "=========BATTLE=SIMULATOR==========\n";
+    cout << "1) Fight Against an Enemy\n";
+    cout << "2) Fight Against Another Player\n";
+    cout << "3) Update Your Stats Before Battle\n";
+    cout << "4) End Program\n";
+    cout << "5) Lua MiniGame V1\n";
+    cout << "=========Copyright=2017==========\n";
+    cout << "Input-->";
+    cin >> choice;
+    
+    switch (choice){
+      case 1:
+        int uid1;
+        int uid2;
+        int menu;
+        cout << "Enter your Id (1-5): \n";
+        cout << "=======================\n";
+        cout << "Your Id -->";
+        cin >> uid1;
+        cout << "=======================\n";
+        cout << "Enter enemy Id (1-11): \n";
+        cout << "=======================\n";
+        cout << "Enemy Id -->";
+        cin >> uid2;
+        cout << "=======================\n";
+        cout << ""<< uid1 << " Versus " << uid2 << "\n";
+        cout << "=======================\n";
+        cout << "Press any key to reset\n";
+        cout << "=======================\n";
+        cout << "Input -->";
+        cin >> menu;
+        
+        switch(uid1)
+      break;
+      
+      case 2:
+        //something
+      break;
+      
+      case 3:
+        //something
+      break;
+      
+      case 4:
+      cout << "Shutting Down\n";
+      cout << "Filler Text\n";
+      cout << "Doing Generic Computer Things\n";
+      cout << "Cleaning Code\n";
+      cout << "Bye!\n";
+      return 0;
+      
+      break;
+      
+      case 5:
+      int keepLuaing;
+      int diceSide;
+      cout << "You, brave lua'er, have been challenged to beat Bob's record of a 12 inch lau\n";
+      cin >> keepLuaing;
+      return diceSide(20); cout "You rolled " << diceSide  << "\n"
+      if(diceSide>19) cout << "You sir, have lost. Better luck next time!\n"; return main();
+      if(diceSide<19) cout << "You settle down another inch. Keep going?\n";
+      default:
+        cout << "Error-->That Choice Does Not Exist\n"; 
+        cout << "Prgrm-->Reset\n";
+        return main();
+      break;
+      
+    }
+    //ask user if they want to run the program again
+    return main();
+}
+
+
+
+
+
